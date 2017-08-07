@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/jquery-1.12.3.min.js"></script>
+  <script src="js/SessionParser.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    ons.platform.select('android');
+    ons.ready(function() {
+        console.log("Onsen UI is ready!");
+        document.addEventListener('init', function(event) 
+        {
+          var myNavigator = document.querySelector('#myNavigator')
+        });
+    });
+    
+//    var submitSignUp = function()
+//    {
+//        ons.notification.alert("hello");
+//    };
+  </script>
+</head>
+<body>
+    <div class="loader">
+        <img src="img/oval.svg">
+    </div>
+    <ons-navigator title="Navigator" id="myNavigator">
+      <!-- Login Screen -->
+        <ons-page>
+            <div class="login-page">
+                <p align="center" class="logo-holder">
+                    <img src="img/logo.png" style="width:auto;">
+                </p>
+                <p align="center">
+                <ons-input id="username" modifier="underbar" placeholder="Username" float></ons-input>
+                </p>
+                <p align="center">
+                <ons-input id="password" modifier="underbar" type="password" placeholder="Password" float></ons-input>
+                </p>
+                <p align="center">
+                <ons-button class="signin">Login</ons-button>
+                </p>
+                <p align="center">
+                <ons-button id="push-button" class="signup" onclick="myNavigator.pushPage('register', { animation : 'lift' })">
+                    Signup Now
+                </ons-button>
+                </p>
+            </div>
+        </ons-page>
+    </ons-navigator>
+      <!-- Login Screen -->
+
+    <!-- Register Screen -->
+    <ons-template id="register">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Page 1</ons-back-button></div>
+                <div class="center">Signup</div>
+            </ons-toolbar>
+            <div class="sign-up-form">
+                <p align="center">
+                    <ons-input id="lastname" modifier="underbar" placeholder="Last name" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="firstname" modifier="underbar" placeholder="First name" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="address" modifier="underbar" placeholder="Address" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="mobile" type="number" modifier="underbar" placeholder="Mobile" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="email" type="email" modifier="underbar" placeholder="Email" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="signup_username" modifier="underbar" placeholder="Username" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="signup_password" modifier="underbar" type="password" placeholder="Password" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="confirmpassword" modifier="underbar" type="password" placeholder="Confirm Password" float></ons-input>
+                </p>
+                <p align="right">
+                    <ons-button class="submit-signup">Submit</ons-button>
+                </p>
+            </div>
+        </ons-page>
+    </ons-template>
+    <!-- Register Screen -->
+</body>
+</html>

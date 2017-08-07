@@ -1,0 +1,190 @@
+.signin
+{
+    width: 195px;
+}
+
+.signup
+{
+    width: 195px;
+}
+
+.login-page
+{
+    margin-top: 20vh;
+}
+
+.sign-up-form, .checkout-form, .request-schedule-form
+{
+    padding: 20px 40px;
+}
+
+.sign-up-form ons-input, .checkout-form ons-input, .request-schedule-form ons-input, .request-schedule-form ons-select
+{
+    width: 100%;
+}
+
+.loader
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(40, 90, 48, 0.8);
+    z-index: 999;
+    display: none;
+}
+
+.loader img
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#avatar
+{
+    width: 30%;
+    margin: 20px auto;
+    display: block;
+}
+
+#list-username
+{
+    text-align: center;
+    font-weight: 700;
+    color: #0c827f;
+}
+
+.product-item
+{
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.product-item .wrapper
+{
+    padding: 10px;
+}
+
+.product-item .product-name
+{
+    font-weight: 700;
+    display: block;
+}
+
+.product-item .product-price
+{
+    display: block;
+}
+
+.product-item .product-image
+{
+    height: 100px;
+}
+
+.product-item .inner-wrapper
+{
+    height: 160px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.product-details
+{
+    text-align: left;
+}
+
+.product-details .wrapper
+{
+    padding: 10px;
+}
+
+.product-details .product-name
+{
+    font-weight: 700;
+    display: block;
+    color: #0c827f;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.product-details .product-price
+{
+    font-weight: 700;
+    display: block;
+}
+
+.product-details .product-image
+{
+    height: 200px;
+}
+
+.product-details .inner-wrapper
+{
+    padding: 10px;
+}
+
+.remove-from-cart
+{
+    background: #e74c3c;
+}
+
+.computation
+{
+    margin: 15% 0;
+}
+
+.computation-total
+{
+    text-align: right;
+    font-weight: bold;
+    color: #0c827f;
+}
+
+#checkout-button
+{
+    background: #f39c12;
+    width: 95%;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    display: block;
+}
+
+.complete-address
+{
+    display: block;
+    text-align: left;
+    margin: 0 0 16px;
+    font-size: 10px;
+}
+
+.checkout-form .list-header
+{
+    padding: 0;
+}
+
+.checkout-form .list-item
+{
+    color: #f39c12;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 0 0 10px;
+}
+
+.profile-option ons-icon
+{
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+}
+
+.profile-option
+{
+    padding-left: 20px;
+    padding-right: 20px;
+}

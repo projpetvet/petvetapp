@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <!--<script src="components/loader.js"></script>-->
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="js/jquery-1.12.3.min.js"></script>
+  <script src="js/MVCParser.js"></script>
+  <script src="js/SessionParser.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    ons.platform.select('android');
+    var app = {};
+    ons.ready(function() {
+        console.log("Onsen UI is ready!");
+        LoadCustomerData(sp.get("user_id"));
+    });
+    
+    app.showProfileAction = function () {
+        ons.openActionSheet({
+          title: 'Options',
+          cancelable: true,
+          buttons: [
+            {
+              label: 'View Order History',
+              icon: 'fa-shopping-cart'
+            },
+            {
+              label: 'Edit Profile',
+              icon: 'fa-pencil-square-o'
+            },
+            {
+              label: 'Logout',
+              icon: 'fa-sign-out'
+            }
+          ]
+        }).then(function (index) {
+            console.log('index: ', index);
+            if(index == 0)
+            {
+                myNavigator.pushPage('order-history', { animation : 'lift' });
+            }
+            else if(index == 1)
+            {
+                
+            }
+            else if(index == 2)
+            {
+                logout();
+            }
+        })
+      };
+
+    document.addEventListener('show', function(event) {
+        var ProductsLoaded = false;
+        var myNavigator = document.querySelector('#myNavigator');
+        var page = event.target;
+        var titleElement = document.querySelector('#toolbar-title');
+
+        if (page.matches('#profile-page')) 
+        {
+            titleElement.innerHTML = 'Profile';
+        }
+        else if (page.matches('#schedule-page'))
+        {
+            titleElement.innerHTML = 'Schedule';
+            RenderAppointmentHistory();
+        }
+        else if (page.matches('#shopping-page'))
+        {
+            titleElement.innerHTML = 'Shopping';
+            LoadProducts();
+        }
+        else if (page.matches('#cart-page'))
+        {
+            titleElement.innerHTML = 'Cart';
+            RenderCartPage();
+        }
+        else if (page.matches('#product-detail-page'))
+        {
+            if(!ProductsLoaded)
+            {
+                RenderProductDetailPage();
+                ProductsLoaded = true;
+            }
+        }
+        else if (page.matches('#checkout-page')) 
+        {
+            RenderCheckoutPage();
+        }
+        else if (page.matches('#order-history-page')) 
+        {
+            RenderOrderHistoryPage();
+        }
+        else if (page.matches('#request-schedule-page')) 
+        {
+            RenderSetAppointmentPage();
+        }
+        else if (page.matches('#request-schedule-detail-page')) 
+        {
+            RenderAppointmentDetailPage();
+        }
+    });
+  </script>
+</head>
+<body>
+    <div class="loader">
+        <img src="img/oval.svg">
+    </div>
+    
+    <ons-navigator title="Navigator" id="myNavigator">
+        <ons-page>
+          <ons-toolbar>
+            <div class="center" id="toolbar-title"></div>
+            <div class='right'>
+                <ons-toolbar-button class='profile-option' onclick='app.showProfileAction()'>
+                  <ons-icon icon='ion-navicon, material:md-more-vert'></ons-icon>
+                </ons-toolbar-button>
+            </div>
+          </ons-toolbar>
+          <ons-tabbar>
+            <ons-tab icon="fa-user" page="profile.html" active>
+            </ons-tab>
+            <ons-tab icon="fa-calendar" page="schedule.html">
+            </ons-tab>
+            <ons-tab icon="fa-shopping-bag" page="shopping.html">
+            </ons-tab>
+            <ons-tab icon="fa-shopping-cart" page="cart.html">
+            </ons-tab>
+          </ons-tabbar>
+        </ons-page>
+    </ons-navigator>
+
+    <ons-template id="profile.html">
+      <ons-page id="profile-page">     
+          <img id="avatar" src="img/avatar.svg">
+          <p id="list-username">
+          </p>
+          <ons-list style="margin-bottom: 20px;">
+              <ons-list-header>Last name</ons-list-header>
+                  <ons-list-item id="list-lastname">Item A</ons-list-item>
+              <ons-list-header>First name</ons-list-header>
+                  <ons-list-item id="list-firstname">Item A</ons-list-item>
+              <ons-list-header>Address</ons-list-header>
+                  <ons-list-item id="list-address">Item A</ons-list-item>
+              <ons-list-header>Mobile</ons-list-header>
+                  <ons-list-item id="list-mobile">Item A</ons-list-item>
+              <ons-list-header>Email</ons-list-header>
+                  <ons-list-item id="list-email">Item A</ons-list-item>
+          </ons-list>
+      </ons-page>
+    </ons-template>
+    <ons-template id="schedule.html">
+      <ons-page id="schedule-page">
+      </ons-page>
+    </ons-template>
+    <ons-template id="shopping.html">
+          <ons-page id="shopping-page">
+          </ons-page>
+    </ons-template>
+    <ons-template id="productdetail">
+        <ons-page id="product-detail-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Page 1</ons-back-button></div>
+                <div class="center">Product Details</div>
+            </ons-toolbar>
+            <div class="pd-data">
+            </div>
+        </ons-page>
+    </ons-template>
+    <ons-template id="cart.html">
+      <ons-page id="cart-page">
+        <p style="text-align: center;">
+        </p>
+      </ons-page>
+    </ons-template>
+    <ons-template id="checkout">
+      <ons-page id="checkout-page">
+        <ons-toolbar>
+            <div class="left"><ons-back-button></ons-back-button></div>
+            <div class="center">Checkout</div>
+        </ons-toolbar>
+        <div class="checkout-datails">
+            <div class="checkout-form">
+                <ons-list>
+                    <ons-list-header>Total:</ons-list-header>
+                    <ons-list-item id="checkout-total"></ons-list-item>
+                </ons-list>
+                <p align="center">
+                    <ons-input id="billing_name" modifier="underbar" placeholder="Full name" float></ons-input>
+                </p>
+                <p align="center">
+                    <span class="complete-address">
+                        Complete Address (House Number, Building and Street Name)
+                    </span>
+                    <ons-input id="billing_address" modifier="underbar" placeholder="Address" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="billing_mobile" type="number" modifier="underbar" placeholder="Mobile" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="billing_email" type="email" modifier="underbar" placeholder="Email" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="billing_note" type="email" modifier="underbar" placeholder="Note" float></ons-input>
+                </p>
+                <p align="right">
+                    <ons-button class="submit-checkout">Submit</ons-button>
+                </p>
+            </div>
+        </div>
+      </ons-page>
+    </ons-template>
+    <ons-dialog id="checkout-successful">
+        <div style="text-align: center; padding: 10px;">
+          <p>
+            Checkout Successful!
+            <p>
+
+              <p>
+                <ons-button onclick="window.location.reload()">ok</ons-button>
+              </p>
+        </div>
+    </ons-dialog>
+    <ons-template id="order-history">
+      <ons-page id="order-history-page">
+        <ons-toolbar>
+            <div class="left"><ons-back-button></ons-back-button></div>
+            <div class="center">Order History</div>
+        </ons-toolbar>
+        <div class="order-history-datails">
+            <ons-list id="order-history-list">
+            </ons-list>
+        </div>
+      </ons-page>
+    </ons-template>
+    <ons-template id="request-schedule">
+        <ons-page id="request-schedule-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Set Appointment</div>
+            </ons-toolbar>
+            <div class="request-schedule-form">
+                <p align="center">
+                    <ons-input id="app_date" type="date" modifier="underbar" placeholder="Appointment Date:" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="app_time" type="time" modifier="underbar" placeholder="Appointment Time:" float></ons-input>
+                </p>
+                <p id="doctor-selection" align="center">
+                </p>
+                <p id="pet-selection" align="center">
+                </p>
+                <p id="services-selection" align="left">
+                </p>
+                <p align="right">
+                    <ons-button class="submit-appointment">Submit</ons-button>
+                </p>
+            </div>
+        </ons-page>
+    </ons-template>
+    <ons-template id="request-schedule-detail">
+        <ons-page id="request-schedule-detail-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Appointment Details</div>
+            </ons-toolbar>
+            <div class="request-schedule-detail">
+            </div>
+        </ons-page>
+    </ons-template>
+</body>
+</html>
