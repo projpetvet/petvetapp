@@ -51,7 +51,7 @@
             }
             else if(index == 1)
             {
-                
+                myNavigator.pushPage('update-account', { animation : 'lift' });
             }
             else if(index == 2)
             {
@@ -108,6 +108,10 @@
         else if (page.matches('#request-schedule-detail-page')) 
         {
             RenderAppointmentDetailPage();
+        }
+        else if (page.matches('#update-account-page')) 
+        {
+            RenderEditProfileForm();
         }
     });
   </script>
@@ -278,5 +282,46 @@
             </div>
         </ons-page>
     </ons-template>
+
+    <!-- Update Account Screen -->
+    <ons-template id="update-account">
+        <ons-page id="update-account-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Edit Profile</div>
+            </ons-toolbar>
+            <div class="sign-up-form">
+                <p align="center">
+                    <ons-input id="lastname" modifier="underbar" placeholder="Last name" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="firstname" modifier="underbar" placeholder="First name" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="address" modifier="underbar" placeholder="Address" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="mobile" type="number" modifier="underbar" placeholder="Mobile" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="email" type="email" modifier="underbar" placeholder="Email" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="edit_username" modifier="underbar" placeholder="Username" float></ons-input>
+                </p>
+                <p align="center">
+                    <i class="leave-note">Leave blank if you want to retain old password...</i>
+                    <ons-input id="edit_password" modifier="underbar" type="password" placeholder="Password" float></ons-input>
+                </p>
+                <p align="center">
+                    <ons-input id="confirmpassword" modifier="underbar" type="password" placeholder="Confirm Password" float></ons-input>
+                </p>
+                <p align="right">
+                    <ons-button class="update-profile">Update</ons-button>
+                </p>
+            </div>
+        </ons-page>
+    </ons-template>
+    <!-- Update Account Screen -->
 </body>
 </html>

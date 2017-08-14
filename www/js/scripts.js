@@ -4,6 +4,10 @@ document.addEventListener('init', function(event) {
         SignUp();
     });
     
+    $(".update-profile").click(function(){
+        UpdateProfile();
+    });
+    
     $(".signin").unbind().click(function(){
         var username = $('#username').val();
         var password = $('#password').val();
@@ -134,6 +138,62 @@ var SignUp = function()
     }
 };
 
+var UpdateProfile = function()
+{
+    var lastname = $("#lastname").val();
+    var firstname = $("#firstname").val();
+    var address = $("#address").val();
+    var mobile = $("#mobile").val();
+    var email = $("#email").val();
+    var username = $("#edit_username").val();
+    var password = $("#edit_password").val();
+    var cpassword = $("#confirmpassword").val();
+    
+    if(lastname.trim() == '')
+    {
+        ons.notification.alert("Please fill-out last name.");
+    }
+    else if(firstname.trim() == '')
+    {
+        ons.notification.alert("Please fill-out first name.");
+    }
+    else if(address.trim() == '')
+    {
+        ons.notification.alert("Please fill-out address.");
+    }
+    else if(mobile.trim() == '')
+    {
+        ons.notification.alert("Please fill-out mobile.");
+    }
+    else if((email.trim() != '') && !validateEmail(email))
+    {
+        ons.notification.alert("Please fill-out email correctly.");
+    }
+    else if(username.trim() == '')
+    {
+        ons.notification.alert("Please fill-out username.");
+    }
+    else if(password != cpassword)
+    {
+        ons.notification.alert("Password and Confirm password do not match.");
+    }
+    else
+    {
+        var data = {
+            lastname : lastname,
+            firstname : firstname,
+            address : address,
+            mobile : mobile,
+            email : email,
+            username : username,
+            password : password,
+            id : sp.get('user_id')
+        };
+        
+        SaveProfile(data);
+    }
+};
+
 var validateEmail =  function(email) 
 {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -154,6 +214,34 @@ var Register = function(data)
             if(data.success)
             {
                 sp.set('user_id',data.id);
+                window.location.href = "main.html";
+            }
+            else
+            {
+                ons.notification.alert(data.message);
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
+};
+
+var SaveProfile = function(data)
+{
+    $.ajax({
+        url : config.url+'/UpdateProfile',
+        method : "POST",
+        data : data,
+        dataType : "json",
+        beforeSend : function(){
+            loader();
+        },
+        success : function(data){
+            if(data.success)
+            {
                 window.location.href = "main.html";
             }
             else
@@ -817,4 +905,15 @@ var RenderAppointmentDetailPage = function()
             dismissLoader();
         }
     });
+};
+
+var RenderEditProfileForm = function()
+{
+    var info = sp.getKey('customer','info');
+    $("#lastname").val(info.lastname);
+    $("#firstname").val(info.firstname);
+    $("#address").val(info.address);
+    $("#email").val(info.email);
+    $("#mobile").val(info.mobile);
+    $("#edit_username").val(info.username);
 };
