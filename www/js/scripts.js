@@ -884,13 +884,19 @@ var RenderAppointmentDetailPage = function()
         success : function(data){
             if(data.success)
             {
-                console.log(data);
                 var ListView = '';
                 $.each(data.services_list,function(key,value){
                     ListView += mvc.LoadView('Appointment/AppDetailServiceList',value);
                 });
                 data.app_detail.services_list = ListView;
-                
+                if(data.app_detail.status == 1)
+                {
+                    data.app_detail.cancel_button = mvc.LoadView('Appointment/CancelAppointment',data.app_detail);
+                }
+                else
+                {
+                    data.app_detail.cancel_button = '';
+                }
                 var IndexView = mvc.LoadView('Appointment/AppDetail',data.app_detail);
                 $("#request-schedule-detail-page .request-schedule-detail").html(IndexView);
             }
@@ -916,4 +922,43 @@ var RenderEditProfileForm = function()
     $("#email").val(info.email);
     $("#mobile").val(info.mobile);
     $("#edit_username").val(info.username);
+};
+
+var cancelAppointment = function(id)
+{
+    ons.notification.confirm({
+            message: 'Are you sure you want to cancel this appointment?',
+            callback: function(answer) {
+                if(answer == 1)
+                {
+                    $.ajax({
+                        url : config.url+'/CancelAppointment',
+                        method : "POST",
+                        data : {
+                            id : id
+                        },
+                        dataType : "json",
+                        beforeSend : function(){
+                            loader();
+                        },
+                        success : function(data){
+                            if(data.success)
+                            {
+                                ons.notification.alert("Appointment successfully canceled.");
+                                myNavigator.popPage({ animation : 'lift' });
+                            }
+                            else
+                            {
+                                ons.notification.alert(data.message);
+                            }
+                            dismissLoader();
+                        },
+                        error : function(){
+                            ons.notification.alert("Error connecting to server.");
+                            dismissLoader();
+                        }
+                    });
+                }
+            }
+        });
 };
