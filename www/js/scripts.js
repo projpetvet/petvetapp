@@ -644,7 +644,14 @@ var RenderOrderHistoryPage = function()
                 {
                     $("#cart-page .page__content").html("");
                     $.each(data.list,function(key,value){
-                        listView = mvc.LoadView('Order/OrderItem',value);
+                        if(value.status == 'Pending')
+                        {
+                            listView = mvc.LoadView('Order/OrderItemTappable',value);
+                        }
+                        else
+                        {
+                            listView = mvc.LoadView('Order/OrderItem',value);
+                        }
                         $("#order-history-page .page__content #order-history-list").append(listView);
                     });
                 }
@@ -945,6 +952,45 @@ var cancelAppointment = function(id)
                             if(data.success)
                             {
                                 ons.notification.alert("Appointment successfully canceled.");
+                                myNavigator.popPage({ animation : 'lift' });
+                            }
+                            else
+                            {
+                                ons.notification.alert(data.message);
+                            }
+                            dismissLoader();
+                        },
+                        error : function(){
+                            ons.notification.alert("Error connecting to server.");
+                            dismissLoader();
+                        }
+                    });
+                }
+            }
+        });
+};
+
+var cancelOrder = function(id)
+{
+    ons.notification.confirm({
+            message: 'Are you sure you want to cancel order #'+id+'?',
+            callback: function(answer) {
+                if(answer == 1)
+                {
+                    $.ajax({
+                        url : config.url+'/CancelOrder',
+                        method : "POST",
+                        data : {
+                            id : id
+                        },
+                        dataType : "json",
+                        beforeSend : function(){
+                            loader();
+                        },
+                        success : function(data){
+                            if(data.success)
+                            {
+                                ons.notification.alert("Order successfully canceled.");
                                 myNavigator.popPage({ animation : 'lift' });
                             }
                             else

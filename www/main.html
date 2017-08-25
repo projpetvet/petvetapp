@@ -59,6 +59,24 @@
             }
         })
       };
+      
+    app.showCancelOrderOption = function (id) {
+        ons.openActionSheet({
+          title: 'Options',
+          cancelable: true,
+          buttons: [
+            {
+              label: 'Cancel Appointment',
+              icon: 'fa-close'
+            }
+          ]
+        }).then(function (index) {
+            if(index == 0)
+            {
+                cancelOrder(id);
+            }
+        });
+      };
 
     document.addEventListener('show', function(event) {
         var ProductsLoaded = false;
