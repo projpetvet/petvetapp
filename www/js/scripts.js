@@ -73,6 +73,54 @@ document.addEventListener('init', function(event) {
         sp.set("current_app_id",app_id);
         myNavigator.pushPage('request-schedule-detail', { animation : 'lift' });
     });
+    
+    $("#add-pet-page").on("change", "#pet_specie", function(){
+        var specie = $(this).val();
+        if(specie == '')
+        {
+            $(".pet_breed_selection").html('');
+        }
+        else
+        {
+            RenderBreed(specie);
+        }
+    });
+    
+    $("#add-pet-page").on("click","#save-pet",function(){
+        var name = $("#pet_name").val();
+        var specie = $("#pet_specie").val();
+        var breed = $("#pet_breed").val();
+        var gender = $("#pet_gender").val();
+        if(name.trim() == '')
+        {
+            ons.notification.alert("Please fill-out pet name.");
+        }
+        else if(specie.trim() == '')
+        {
+            ons.notification.alert("Please fill-out specie.");
+        }
+        else if(breed.trim() == '')
+        {
+            ons.notification.alert("Please fill-out breed.");
+        }
+        else if(gender.trim() == '')
+        {
+            ons.notification.alert("Please fill-out gender.");
+        }
+        else
+        {
+            var data = {
+                name : name,
+                specie : specie,
+                breed : breed,
+                gender : gender,
+                customer : sp.get('user_id')
+            };
+            
+            SavePet(data);
+        }
+    });
+    
 });
 
 var SignUp = function()
@@ -1007,4 +1055,97 @@ var cancelOrder = function(id)
                 }
             }
         });
+};
+
+var RenderSpecie = function()
+{
+    $.ajax({
+        url : config.url+'/GetSpecies',
+        method : "POST",
+        data : null,
+        dataType : "json",
+        beforeSend : function(){
+            loader();
+        },
+        success : function(data){
+            if(data.success)
+            {
+                var ListView = '';
+                $.each(data.list,function(key,value){
+                    ListView += mvc.LoadView('Appointment/SpecieList',value);
+                });
+                $('.pet_specie_selection').html(mvc.LoadView('Appointment/SpecieIndex',{list : ListView}));
+            }
+            else
+            {
+                ons.notification.alert("Error connecting to server.");
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
+};
+
+var RenderBreed = function(id)
+{
+    $.ajax({
+        url : config.url+'/GetBreeds',
+        method : "POST",
+        data : {id : id},
+        dataType : "json",
+        beforeSend : function(){
+            loader();
+        },
+        success : function(data){
+            if(data.success)
+            {
+                var ListView = '';
+                $.each(data.list,function(key,value){
+                    ListView += mvc.LoadView('Appointment/BreedList',value);
+                });
+                $('.pet_breed_selection').html(mvc.LoadView('Appointment/BreedIndex',{list : ListView}));
+            }
+            else
+            {
+                ons.notification.alert("Error connecting to server.");
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
+};
+
+var SavePet = function(data)
+{
+    $.ajax({
+        url : config.url+'/SavePet',
+        method : "POST",
+        data : data,
+        dataType : "json",
+        beforeSend : function(){
+            loader();
+        },
+        success : function(data){
+            if(data.success)
+            {
+                myNavigator.popPage({ animation : 'lift' });
+                ons.notification.alert("Pet successfully saved.");
+            }
+            else
+            {
+                ons.notification.alert("Error connecting to server.");
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
 };

@@ -1,4 +1,13 @@
-<ons-select id="pet">
-    <option value="">Select Pet</option>
-    {list}
-</ons-select>
+<div class="pull-left" style="width:80%;margin-right: 10px;">
+    <ons-select id="pet" >
+        <option value="">Select Pet</option>
+        {list}
+    </ons-select>
+</div>
+<div class="pull-right" style="width:15%;">
+    <ons-button style="margin-top:-5px;" onclick="myNavigator.pushPage('add-pet', { animation : 'lift' });">
+         <ons-icon icon="md-plus"></ons-icon>
+    </ons-button>
+</div>
+<br>
+<br>

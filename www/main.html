@@ -131,6 +131,10 @@
         {
             RenderEditProfileForm();
         }
+        else if (page.matches('#add-pet-page')) 
+        {
+            RenderSpecie();
+        }
     });
   </script>
 </head>
@@ -341,5 +345,35 @@
         </ons-page>
     </ons-template>
     <!-- Update Account Screen -->
+    
+    <!-- Add Pet Screen -->
+    <ons-template id="add-pet">
+        <ons-page id="add-pet-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Add Pet</div>
+            </ons-toolbar>
+            <div class="sign-up-form">
+                <p align="center">
+                    <ons-input id="pet_name" modifier="underbar" placeholder="Pet name" float></ons-input>
+                </p>
+                <p align="center" class="pet_specie_selection">
+                </p>
+                <p align="center" class="pet_breed_selection">
+                </p>
+                <p align="center">
+                    <ons-select id="pet_gender" modifier="underbar" placeholder="Gender" float style="width:100%;">
+                        <option value="">Select Gender</option>
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </ons-select>
+                </p>
+                <p align="right">
+                    <ons-button id="save-pet">SUBMIT</ons-button>
+                </p>
+            </div>
+        </ons-page>
+    </ons-template>
+    <!-- Add Pet Screen -->
 </body>
 </html>
