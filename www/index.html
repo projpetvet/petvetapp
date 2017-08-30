@@ -30,6 +30,12 @@
 //    {
 //        ons.notification.alert("hello");
 //    };
+    function gmailLogin() {
+          window.plugins.webintent.startActivity({
+            action: window.plugins.webintent.ACTION_VIEW,
+            url: config.gmailUrl}
+        );
+    }
   </script>
 </head>
 <body>
@@ -53,9 +59,19 @@
                 <ons-button class="signin">Login</ons-button>
                 </p>
                 <p align="center">
-                <ons-button id="push-button" class="signup" onclick="myNavigator.pushPage('register', { animation : 'lift' })">
-                    Signup Now
-                </ons-button>
+                    <ons-button id="push-button" class="signup" onclick="myNavigator.pushPage('register', { animation : 'lift' })">
+                        Signup Now
+                    </ons-button>
+                </p>
+                <p align="center">
+                    <ons-button id="push-button" class="signup" style="background:#d34836;" onclick="gmailLogin()">
+                        Sign in with &nbsp; <ons-icon icon="fa-google-plus"></ons-icon>
+                    </ons-button>
+                </p>
+                <p align="center">
+                    <ons-button id="push-button" class="signup" style="background:#3b5998;" onclick="fbLogin()">
+                        Continue with &nbsp; <ons-icon icon="fa-facebook"></ons-icon>
+                    </ons-button>
                 </p>
             </div>
         </ons-page>
