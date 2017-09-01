@@ -148,6 +148,9 @@
           <ons-toolbar>
             <div class="center" id="toolbar-title"></div>
             <div class='right'>
+                <ons-toolbar-button class='terms-option' onclick="myNavigator.pushPage('terms', { animation : 'lift' });">
+                  <ons-icon icon='ion-navicon, material:md-info-outline'></ons-icon>
+                </ons-toolbar-button>
                 <ons-toolbar-button class='profile-option' onclick='app.showProfileAction()'>
                   <ons-icon icon='ion-navicon, material:md-more-vert'></ons-icon>
                 </ons-toolbar-button>
@@ -375,5 +378,28 @@
         </ons-page>
     </ons-template>
     <!-- Add Pet Screen -->
+    
+    <!-- Terms and Condition -->
+    <ons-template id="terms">
+        <ons-page id="terms-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Terms and Condition</div>
+            </ons-toolbar>
+            <div class="terms-page-content">
+                <p align="left">
+                    <span class="big-txt">Welcome to PETVET Mobile App!</span> 
+                    <span class="sub-txt">Please read these terms and conditions carefully.</span>
+                    <br>
+                    The following Terms of Use govern your use and access of the Platform (defined below) and the use of the Services. By accessing the Platform and/or using the Services, you agree to be bound by these Terms of Use. If you do not agree to these Terms of Use, do not access and/or use this Platform or the Services.
+                    <br><br>
+                    Access to and use of password protected and/or secure areas of the Platform and/or use of the Services are restricted to Customers with accounts only. You may not obtain or attempt to obtain unauthorised access to such parts of this Platform and/or Services, or to any other protected information, through any means not intentionally made available by us for your specific use.
+                    <br><br>
+                    If you are below 18 years old: you must obtain consent from your parent(s) or legal guardian(s), their acceptance of these Terms of Use and their agreement to take responsibility for: (i) your actions; (ii) any charges associated with your use of any of the Services or purchase of Products; and (iii) your acceptance and compliance with these Terms of Use. If you do not have consent from your parent(s) or legal guardian(s), you must stop using/accessing this Platform and using the Services."
+                </p>
+            </div>
+        </ons-page>
+    </ons-template>
+    <!-- Terms and Condition -->
 </body>
 </html>
