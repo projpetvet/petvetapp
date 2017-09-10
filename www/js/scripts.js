@@ -347,6 +347,37 @@ var Signin = function(username,password)
     });
 };
 
+var SignInWebUser = function(web_code)
+{
+    $.ajax({
+        url : config.url+'/signInWebUser',
+        method : "POST",
+        data : {
+            web_code : web_code
+        },
+        dataType : "json",
+        beforeSend : function(){
+            loader();
+        },
+        success : function(data){
+            if(data.success)
+            {
+                sp.set('user_id',data.id);
+                window.location.href = "main.html";
+            }
+            else
+            {
+                ons.notification.alert(data.message);
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
+};
+
 var LoadCustomerData = function(id)
 {
     $.ajax({

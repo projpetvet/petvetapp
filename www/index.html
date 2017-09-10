@@ -26,15 +26,52 @@
         });
     });
     
-//    var submitSignUp = function()
-//    {
-//        ons.notification.alert("hello");
-//    };
-    function gmailLogin() {
-          window.plugins.webintent.startActivity({
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 5; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+
+    function gmailLogin() 
+    {
+        window.plugins.webintent.startActivity({
             action: window.plugins.webintent.ACTION_VIEW,
-            url: config.gmailUrl}
+            url: config.gmailUrl+"?loginkey="+makeid()}
         );
+        verifyCode();
+    }
+    
+    function fbLogin() 
+    {
+        window.plugins.webintent.startActivity({
+            action: window.plugins.webintent.ACTION_VIEW,
+            url: config.fbUrl+"?loginkey="+makeid()}
+        );
+        
+        //window.open(config.fbUrl+"?loginkey="+makeid());
+        verifyCode();
+    }
+    
+    function verifyCode()
+    {
+        ons.notification.prompt({
+            message: 'Verification Code?',
+            callback: function(code) {
+                if(code.trim() == '')
+                {
+                    ons.notification.alert("Empty verification code!");
+                    verifyCode();
+                }
+                else
+                {
+                    SignInWebUser(code);
+                }
+            }
+        });
     }
   </script>
 </head>
