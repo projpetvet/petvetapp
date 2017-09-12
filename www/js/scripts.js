@@ -121,6 +121,22 @@ document.addEventListener('init', function(event) {
         }
     });
     
+    $("#services-selection").on("click",".service-checkbox",function(){
+        var id = $(this).val();
+        $('.service-checkbox').each(function(){
+            var val_id = $(this).val();
+            if(id != val_id)
+            {
+                $(this).prop("checked",false);
+            }
+        });
+    });
+    
+    $("#app_date").change(function(){
+        var sched = $(this).val();
+        RenderAppTime(sched);
+    });
+    
 });
 
 var SignUp = function()
@@ -880,7 +896,7 @@ var SubmitAppointment = function(){
     }
     else if(selected_services.trim() == '')
     {
-        ons.notification.alert("Please select atleast one service.");
+        ons.notification.alert("Please select service.");
     }
     else
     {
@@ -890,7 +906,8 @@ var SubmitAppointment = function(){
             doctor_id : doctorData[doctorkey]['id'],
             app_date : app_date,
             app_time : app_time,
-            selected_services : selected_services
+            selected_services : selected_services,
+            note : $("#app_note").val()
         };
         
         $.ajax({
@@ -910,6 +927,10 @@ var SubmitAppointment = function(){
                 else
                 {
                     ons.notification.alert(data.message);
+                    if(data.error_code == 'TIME_ERROR')
+                    {
+                        RenderAppTime(app_date);
+                    }
                 }
                 dismissLoader();
             },
@@ -1171,6 +1192,41 @@ var SavePet = function(data)
             else
             {
                 ons.notification.alert("Error connecting to server.");
+            }
+            dismissLoader();
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+            dismissLoader();
+        }
+    });
+};
+
+var RenderAppTime = function(sched)
+{
+    $.ajax({
+        url : config.url+'/GetTimeTable',
+        method : "POST",
+        data : {
+            sched_date : sched
+        },
+        dataType : "json",
+        beforeSend : function(){
+        },
+        success : function(data){
+            if(data.success)
+            {
+                var ListView = '';
+                $.each(data.sched,function(key,value){
+                    ListView += mvc.LoadView('Appointment/AppTimeList',value);
+                });
+                
+                $("#app-time-holder").html(mvc.LoadView('Appointment/AppTimeIndex',{list : ListView}));
+            }
+            else
+            {
+                ons.notification.alert(data.message);
+                $("#app_date").val('');
             }
             dismissLoader();
         },

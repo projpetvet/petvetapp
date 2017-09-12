@@ -31,12 +31,12 @@
           cancelable: true,
           buttons: [
             {
-              label: 'View Order History',
+              label: 'Order History',
               icon: 'fa-shopping-cart'
             },
             {
-              label: 'Edit Profile',
-              icon: 'fa-pencil-square-o'
+              label: 'My Pets',
+              icon: 'fa-paw'
             },
             {
               label: 'Logout',
@@ -51,7 +51,7 @@
             }
             else if(index == 1)
             {
-                myNavigator.pushPage('update-account', { animation : 'lift' });
+                alert("pets");
             }
             else if(index == 2)
             {
@@ -186,6 +186,9 @@
               <ons-list-header>Email</ons-list-header>
                   <ons-list-item id="list-email">Item A</ons-list-item>
           </ons-list>
+            <ons-fab class="edit-profile-button" position="bottom right" onclick="myNavigator.pushPage('update-account', { animation : 'lift' });">
+                <ons-icon icon="fa-pencil"></ons-icon>
+            </ons-fab>
       </ons-page>
     </ons-template>
     <ons-template id="schedule.html">
@@ -282,12 +285,14 @@
                 <p align="center">
                     <ons-input id="app_date" type="date" modifier="underbar" placeholder="Appointment Date:" float></ons-input>
                 </p>
-                <p align="center">
-                    <ons-input id="app_time" type="time" modifier="underbar" placeholder="Appointment Time:" float></ons-input>
+                <p id="app-time-holder" align="center">
                 </p>
                 <p id="doctor-selection" align="center">
                 </p>
                 <p id="pet-selection" align="center">
+                </p>
+                <p align="center">
+                    <textarea id="app_note" placeholder="Note"></textarea>
                 </p>
                 <p id="services-selection" align="left">
                 </p>

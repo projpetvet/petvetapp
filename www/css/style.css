@@ -230,3 +230,10 @@
 {
     padding: 20px;
 }
+
+#app_note
+{
+    width: 100%;
+    resize: none;
+    height: 50px;
+}
