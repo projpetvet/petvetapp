@@ -74,6 +74,12 @@ document.addEventListener('init', function(event) {
         myNavigator.pushPage('request-schedule-detail', { animation : 'lift' });
     });
     
+    $("#my-pet-detail-page").on("click", ".app-item", function(){
+        var app_id = $(this).attr("data-id");
+        sp.set("current_app_id",app_id);
+        myNavigator.pushPage('request-schedule-detail', { animation : 'lift' });
+    });
+    
     $("#add-pet-page").on("change", "#pet_specie", function(){
         var specie = $(this).val();
         if(specie == '')
@@ -763,6 +769,50 @@ var RenderOrderHistoryPage = function()
         });
 };
 
+var RenderMyPetsPage = function()
+{
+    $.ajax({
+            url : config.url+'/GetMyPets',
+            method : "POST",
+            data : {
+                customer_id : sp.get("user_id")
+            },
+            dataType : "json",
+            beforeSend : function(){
+                loader();
+            },
+            success : function(data){
+                if(data.success)
+                {
+                    if(data.list.length > 0)
+                    {
+                        MY_PET_LIST = data.list;
+                        var ListView  = '';
+                        $.each(data.list,function(key,value){
+                            value.key = key;
+                            ListView += mvc.LoadView('Pet/PetItem',value);
+                        });
+                        
+                        $("#my-pets-list").html(ListView);
+                    }
+                    else
+                    {
+                        $("#my-pets-list").html("<p><center><i>No pets found...</i></center></p>");
+                    }
+                }
+                else
+                {
+                    ons.notification.alert(data.message);
+                }
+                dismissLoader();
+            },
+            error : function(){
+                ons.notification.alert("Error connecting to server.");
+                dismissLoader();
+            }
+        });
+};
+
 var RenderSetAppointmentPage = function()
 {
     $.ajax({
@@ -1233,6 +1283,66 @@ var RenderAppTime = function(sched)
         error : function(){
             ons.notification.alert("Error connecting to server.");
             dismissLoader();
+        }
+    });
+};
+
+var SetPetSession = function(key)
+{
+    sp.set('current_pet_key',key);
+    myNavigator.pushPage('my-pet-detail', { animation : 'lift' });
+};
+
+var RenderPetDetails = function(key)
+{
+    var data = MY_PET_LIST[sp.get('current_pet_key')];
+    if(data.gender == 1)
+    {
+        data.gender = 'Male';
+    }
+    else
+    {
+        data.gender = 'Female';
+    }
+    
+    $("#pet-datails").html(mvc.LoadView('Pet/PetDetails',data));
+    
+    RenderAppointmentHistoryByPet(data.petid);
+};
+
+var RenderAppointmentHistoryByPet = function(id){
+    $.ajax({
+        url : config.url+'/GetAppointmentByPetId',
+        method : "POST",
+        data : {
+            id : id
+        },
+        dataType : "json",
+        beforeSend : function(){
+        },
+        success : function(data){
+            if(data.success)
+            {
+                var ListView = '';
+                $.each(data.app_list,function(key,value){
+                    ListView += mvc.LoadView('Appointment/AppItem',value);
+                });
+                
+                if(ListView.trim() == '')
+                {
+                    ListView = '<i style="padding-left:20px;">No appointment history...</i>';
+                }
+                
+                var IndexView = mvc.LoadView('Appointment/AppIndex',{list:ListView});
+                $("#pet-appointment-history").html(IndexView);
+            }
+            else
+            {
+                ons.notification.alert(data.message);
+            }
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
         }
     });
 };

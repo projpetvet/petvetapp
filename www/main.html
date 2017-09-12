@@ -51,7 +51,7 @@
             }
             else if(index == 1)
             {
-                alert("pets");
+                myNavigator.pushPage('my-pets', { animation : 'lift' });
             }
             else if(index == 2)
             {
@@ -118,6 +118,14 @@
         else if (page.matches('#order-history-page')) 
         {
             RenderOrderHistoryPage();
+        }
+        else if (page.matches('#my-pets-page')) 
+        {
+            RenderMyPetsPage();
+        }
+        else if (page.matches('#my-pet-detail-page')) 
+        {
+            RenderPetDetails();
         }
         else if (page.matches('#request-schedule-page')) 
         {
@@ -272,6 +280,33 @@
         <div class="order-history-datails">
             <ons-list id="order-history-list">
             </ons-list>
+        </div>
+      </ons-page>
+    </ons-template>
+    <ons-template id="my-pets">
+      <ons-page id="my-pets-page">
+        <ons-toolbar>
+            <div class="left"><ons-back-button></ons-back-button></div>
+            <div class="center">My Pets</div>
+        </ons-toolbar>
+        <div class="order-history-datails">
+            <ons-list id="my-pets-list">
+            </ons-list>
+        </div>
+      </ons-page>
+    </ons-template>
+    <ons-template id="my-pet-detail">
+      <ons-page id="my-pet-detail-page">
+        <ons-toolbar>
+            <div class="left"><ons-back-button></ons-back-button></div>
+            <div class="center">Pet Details</div>
+        </ons-toolbar>
+        <div id="pet-datails">
+        </div>
+        <div id="pet-history">
+            <p style="padding-left: 15px;font-weight: 700;">Appointment History</p>
+            <on-list id="pet-appointment-history">
+            </on-list>
         </div>
       </ons-page>
     </ons-template>
