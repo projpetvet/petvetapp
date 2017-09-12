@@ -1,6 +1,14 @@
-<p>
-    <input type="checkbox" name="services" class="service-checkbox" value="{id}">
-    <label class="center">
-      {name} Php {price}
-    </label>
-</p>
+<ons-list-item>
+    <div class="left">
+        <input type="checkbox" name="services" class="service-checkbox" value="{id}">
+    </div>
+    <div class="center">
+      <span class="list-item__title">{name}</span>
+      <span class="list-item__subtitle">Php {price}</span>
+    </div>
+    <div class="right">
+        <ons-button style="margin-top:-5px;" onclick="SetServicesSession({key})">
+            <ons-icon icon="fa-eye"></ons-icon>
+       </ons-button>
+    </div>
+</ons-list-item>

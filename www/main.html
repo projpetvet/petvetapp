@@ -111,6 +111,10 @@
                 ProductsLoaded = true;
             }
         }
+        else if (page.matches('#service-detail-page'))
+        {
+            RenderServiceDetailPage();
+        }
         else if (page.matches('#checkout-page')) 
         {
             RenderCheckoutPage();
@@ -178,33 +182,53 @@
     </ons-navigator>
 
     <ons-template id="profile.html">
-      <ons-page id="profile-page">     
+      <ons-page id="profile-page" class="main-page">     
           <img id="avatar" src="img/avatar.svg">
           <p id="list-username">
           </p>
-          <ons-list style="margin-bottom: 20px;">
-              <ons-list-header>Last name</ons-list-header>
-                  <ons-list-item id="list-lastname">Item A</ons-list-item>
-              <ons-list-header>First name</ons-list-header>
-                  <ons-list-item id="list-firstname">Item A</ons-list-item>
-              <ons-list-header>Address</ons-list-header>
-                  <ons-list-item id="list-address">Item A</ons-list-item>
-              <ons-list-header>Mobile</ons-list-header>
-                  <ons-list-item id="list-mobile">Item A</ons-list-item>
-              <ons-list-header>Email</ons-list-header>
-                  <ons-list-item id="list-email">Item A</ons-list-item>
-          </ons-list>
+            <ons-list style="margin-bottom: 20px;">
+                <ons-list-item>
+                    <div class="center">
+                      <span class="list-item__title">Last name</span>
+                      <span class="list-item__subtitle" id="list-lastname"></span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                      <span class="list-item__title">First name</span>
+                      <span class="list-item__subtitle" id="list-firstname"></span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                      <span class="list-item__title">Address</span>
+                      <span class="list-item__subtitle" id="list-address"></span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                      <span class="list-item__title">Mobile</span>
+                      <span class="list-item__subtitle" id="list-mobile"></span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item>
+                    <div class="center">
+                      <span class="list-item__title">Email</span>
+                      <span class="list-item__subtitle" id="list-email"></span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
             <ons-fab class="edit-profile-button" position="bottom right" onclick="myNavigator.pushPage('update-account', { animation : 'lift' });">
                 <ons-icon icon="fa-pencil"></ons-icon>
             </ons-fab>
       </ons-page>
     </ons-template>
     <ons-template id="schedule.html">
-      <ons-page id="schedule-page">
+      <ons-page id="schedule-page" class="main-page">
       </ons-page>
     </ons-template>
     <ons-template id="shopping.html">
-          <ons-page id="shopping-page">
+          <ons-page id="shopping-page" class="main-page">
           </ons-page>
     </ons-template>
     <ons-template id="productdetail">
@@ -217,8 +241,18 @@
             </div>
         </ons-page>
     </ons-template>
+    <ons-template id="servicedetail">
+        <ons-page id="service-detail-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button></ons-back-button></div>
+                <div class="center">Service Details</div>
+            </ons-toolbar>
+            <div class="pd-data">
+            </div>
+        </ons-page>
+    </ons-template>
     <ons-template id="cart.html">
-      <ons-page id="cart-page">
+      <ons-page id="cart-page" class="main-page">
         <p style="text-align: center;">
         </p>
       </ons-page>

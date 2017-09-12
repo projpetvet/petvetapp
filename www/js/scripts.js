@@ -846,7 +846,9 @@ var RenderSetAppointmentPage = function()
                 $("#request-schedule-page #pet-selection").html(petIndexView);
                 //services
                 var serviceListView = '';
+                SERVICES_LIST = data.services_list;
                 $.each(data.services_list,function(key,value){
+                    value.key = key;
                     serviceListView += mvc.LoadView('Appointment/ServiceList',value);
                 });
                 var serviceIndexView = mvc.LoadView('Appointment/ServiceIndex',{list:serviceListView});
@@ -1345,4 +1347,25 @@ var RenderAppointmentHistoryByPet = function(id){
             ons.notification.alert("Error connecting to server.");
         }
     });
+};
+
+var SetServicesSession = function(key)
+{
+    sp.set('current_service',key);
+    myNavigator.pushPage('servicedetail', { animation : 'lift' });
+};
+
+var RenderServiceDetailPage = function()
+{
+    var key = sp.get('current_service');
+    var data = SERVICES_LIST[key];
+    if(data.image == '')
+    {
+        data.image = 'img/logo.png';
+    }
+    else
+    {
+        data.image = config.serviceUrl + data.image;
+    }
+    $("#service-detail-page .page__content .pd-data").html(mvc.LoadView('Appointment/ServiceDetails',data));
 };
