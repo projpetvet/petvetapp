@@ -364,8 +364,12 @@ var Register = function(data)
         success : function(data){
             if(data.success)
             {
-                sp.set('user_id',data.id);
-                window.location.href = "main.html";
+                ons.notification.alert({
+                    title : "Success",
+                    message : "Please wait for your account verification code that will be sent on your registered mobile number."
+                });
+                
+                myNavigator.popPage({ animation : 'lift' });
             }
             else
             {
@@ -434,8 +438,62 @@ var Signin = function(username,password)
         success : function(data){
             if(data.success)
             {
-                sp.set('user_id',data.id);
-                window.location.href = "main.html";
+                if((data.info.enabled == 1) && (data.info.is_verified == 1))
+                {
+                    sp.set('user_id',data.id);
+                    window.location.href = "main.html";
+                }
+                else if(data.info.is_verified == 0)
+                {
+                    ons.notification.prompt({
+                        title : "Verify Account",
+                        messageHTML: 'Please enter verification code:<br><a style="color:#3498db;" onclick="resendVerificationCode('+data.id+')">Resend Verification Code</a>',
+                        callback: function(code) 
+                        {
+                            if((code == data.info.web_code) && (data.info.web_code_valid == 1)) 
+                            {
+                                $.ajax({
+                                    url : config.url+'/VerifyAccount',
+                                    method : "POST",
+                                    data : {
+                                        id : data.id
+                                    },
+                                    dataType : "json",
+                                    beforeSend : function(){
+                                        loader();
+                                    },
+                                    success : function(data){
+                                        if(data.success)
+                                        {
+                                            sp.set('user_id',data.id);
+                                            window.location.href = "main.html";
+                                        }
+                                        dismissLoader();
+                                    },
+                                    error : function(){
+                                        ons.notification.alert("Error connecting to server.");
+                                        dismissLoader();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                ons.notification.confirm({
+                                    title : "Ooppss...",
+                                    message: 'Invalid verification code!',
+                                    buttonLabels : ["Cancel", "Resend Code"],
+                                    callback: function(answer) {
+                                      // Do something here.
+                                        if(answer == 1)
+                                        {
+                                            resendVerificationCode(data.id);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
             else
             {
@@ -1453,4 +1511,34 @@ var RenderServiceDetailPage = function()
         data.image = config.serviceUrl + data.image;
     }
     $("#service-detail-page .page__content .pd-data").html(mvc.LoadView('Appointment/ServiceDetails',data));
+};
+
+var resendVerificationCode = function(id)
+{
+    $.ajax({
+        url : config.url+'/ResendVerificationCode',
+        method : "POST",
+        data : {
+            id : id
+        },
+        dataType : "json",
+        beforeSend : function(){
+        },
+        success : function(data){
+            if(data.success)
+            {
+                ons.notification.alert({
+                    title : "Success",
+                    message : "Please wait for your account verification code that will be sent on your registered mobile number."
+                });
+            }
+            else
+            {
+                ons.notification.alert("Error connecting to server.");
+            }
+        },
+        error : function(){
+            ons.notification.alert("Error connecting to server.");
+        }
+    });
 };
