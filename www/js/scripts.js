@@ -30,7 +30,37 @@ document.addEventListener('init', function(event) {
        ons.notification.prompt({
             message: 'How many?',
             callback: function(quantity) {
-                if(!isNaN(parseInt(quantity)))
+                if(isNaN(parseInt(quantity)))
+                {
+                    ons.notification.confirm({
+                        title : "Ooppss...",
+                        message: 'Please enter a number only!',
+                        buttonLabels : ["Cancel", "Enter Again"],
+                        callback: function(answer) {
+                          // Do something here.
+                            if(answer == 1)
+                            {
+                                $("#product-detail-page .add-to-cart").trigger("click");
+                            }
+                        }
+                    });
+                }
+                else if(quantity < 1)
+                {
+                    ons.notification.confirm({
+                        title : "Ooppss...",
+                        message: 'Invalid quantity!',
+                        buttonLabels : ["Cancel", "Enter Again"],
+                        callback: function(answer) {
+                          // Do something here.
+                            if(answer == 1)
+                            {
+                                $("#product-detail-page .add-to-cart").trigger("click");
+                            }
+                        }
+                    });
+                }
+                else
                 {
                     $.ajax({
                         url : config.url+'/IsStockSufficient',
@@ -52,6 +82,7 @@ document.addEventListener('init', function(event) {
                                 else
                                 {
                                     ons.notification.confirm({
+                                        title : "Ooppss...",
                                         message: 'Insufficient stocks!',
                                         buttonLabels : ["Cancel", "Enter Again"],
                                         callback: function(answer) {
@@ -61,7 +92,7 @@ document.addEventListener('init', function(event) {
                                                 $("#product-detail-page .add-to-cart").trigger("click");
                                             }
                                         }
-                                      });
+                                    });
                                 }
                                 
                                 $(".product-stocks").html("Stocks: "+data.current_stock);
@@ -75,10 +106,6 @@ document.addEventListener('init', function(event) {
                             ons.notification.alert("Error connecting to server.");
                         }
                     });
-                }
-                else
-                {
-                    ons.notification.alert("Please enter a number only");
                 }
             }
         });
