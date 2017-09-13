@@ -32,7 +32,49 @@ document.addEventListener('init', function(event) {
             callback: function(quantity) {
                 if(!isNaN(parseInt(quantity)))
                 {
-                    AddToCart(id,quantity);
+                    $.ajax({
+                        url : config.url+'/IsStockSufficient',
+                        method : "POST",
+                        data : {
+                            id :id,
+                            quantity :quantity
+                        },
+                        dataType : "json",
+                        beforeSend : function(){
+                        },
+                        success : function(data){
+                            if(data.success)
+                            {
+                                if(data.sufficient)
+                                {
+                                    AddToCart(id,quantity);
+                                }
+                                else
+                                {
+                                    ons.notification.confirm({
+                                        message: 'Insufficient stocks!',
+                                        buttonLabels : ["Cancel", "Enter Again"],
+                                        callback: function(answer) {
+                                          // Do something here.
+                                            if(answer == 1)
+                                            {
+                                                $("#product-detail-page .add-to-cart").trigger("click");
+                                            }
+                                        }
+                                      });
+                                }
+                                
+                                $(".product-stocks").html("Stocks: "+data.current_stock);
+                            }
+                            else
+                            {
+                                ons.notification.alert(data.message);
+                            }
+                        },
+                        error : function(){
+                            ons.notification.alert("Error connecting to server.");
+                        }
+                    });
                 }
                 else
                 {
