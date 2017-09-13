@@ -1,4 +1,20 @@
 document.addEventListener('init', function(event) {
+    
+    $(".open-refine-search").click(function(){
+        $("#refine-search").show();
+        if(sp.isset('refine_search'))
+        {
+            $("#search_product").val(sp.get('refine_search'));
+        }
+        RenderProductCategories();
+    });
+    
+    $("#refine-search-btn").unbind().click(function(){
+        sp.set('refine_search',$("#search_product").val());
+        sp.set('refine_category',$("#product-category").val());
+        $("#refine-search").hide();
+        LoadProducts();
+    });
 
     $(".submit-signup").click(function(){
         SignUp();
@@ -579,10 +595,31 @@ var LoadCustomerData = function(id)
 
 var LoadProducts = function()
 {
+    if(sp.isset('refine_search'))
+    {
+        var search = sp.get("refine_search");
+    }
+    else
+    {
+        var search = '';
+    }
+    
+    if(sp.isset('refine_category'))
+    {
+        var category = sp.get("refine_category");
+    }
+    else
+    {
+        var category = '';
+    }
+    
     $.ajax({
         url : config.url+'/GetProducts',
         method : "POST",
-        data : null,
+        data : {
+            search : search,
+            category : category
+        },
         dataType : "json",
         beforeSend : function(){
             loader();
@@ -594,6 +631,7 @@ var LoadProducts = function()
                 sp.set("products_loaded","true");
                 PRODUCT_LIST = data.list;
                 $("#shopping-page .page__content .product-views").html("");
+                var ctr = 0;
                 $.each(data.list,function(key,value){
                     value.key = key;
                     if(value.image == '')
@@ -608,7 +646,13 @@ var LoadProducts = function()
                     var productView = mvc.LoadView('Products/ProductItem',value);
                     //console.log(productView);
                     $("#shopping-page .page__content .product-views").append(productView);
+                    ctr++;
                 });
+                
+                if(ctr == 0)
+                {
+                    $("#shopping-page .page__content .product-views").html("<p align='center'><i>No products found...</i></p>");
+                }
             }
             else
             {
@@ -1539,6 +1583,41 @@ var resendVerificationCode = function(id)
         },
         error : function(){
             ons.notification.alert("Error connecting to server.");
+        }
+    });
+};
+
+var RenderProductCategories = function(id)
+{
+    $.ajax({
+        url : config.url+'/GetProductCategories',
+        method : "POST",
+        data : null,
+        dataType : "json",
+        beforeSend : function(){
+        },
+        success : function(data){
+            if(data.success)
+            {
+                var ListView = ''
+                $.each(data.list,function(key,value){
+                    ListView += mvc.LoadView('Products/ProductCategoryList',value);
+                });
+                
+                $("#product-category-holder").html(mvc.LoadView('Products/ProductCategoryIndex',{list : ListView}));
+                
+                if(sp.isset('refine_category'))
+                {
+                    $(".product-category-selector").val(sp.get('refine_category'));
+                }
+            }
+            else
+            {
+                //ons.notification.alert("Error connecting to server.");
+            }
+        },
+        error : function(){
+            //ons.notification.alert("Error connecting to server.");
         }
     });
 };

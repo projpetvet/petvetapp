@@ -237,7 +237,7 @@
         <ons-page id="shopping-page" class="main-page">
             <div class="product-views">
             </div>
-            <ons-fab class="add-appointment" position="bottom right">
+            <ons-fab class="open-refine-search" position="bottom right">
                 <ons-icon icon="fa-filter"></ons-icon>
             </ons-fab>
         </ons-page>
@@ -307,13 +307,25 @@
     </ons-template>
     <ons-dialog id="checkout-successful">
         <div style="text-align: center; padding: 10px;">
-          <p>
+            <p>
             Checkout Successful!
             <p>
 
               <p>
                 <ons-button onclick="window.location.reload()">ok</ons-button>
               </p>
+        </div>
+    </ons-dialog>
+    <ons-dialog id="refine-search">
+        <div style="text-align: center; padding: 10px;">
+            <p align="center">
+                <ons-input id="search_product" modifier="underbar" placeholder="Search" float></ons-input>
+            </p>
+            <p id="product-category-holder" align="center">
+            </p>
+            <p align="center">
+                <ons-button id="refine-search-btn">Search</ons-button>
+            </p>
         </div>
     </ons-dialog>
     <ons-template id="order-history">
