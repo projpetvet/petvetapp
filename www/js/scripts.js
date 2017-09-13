@@ -597,10 +597,13 @@ var LoadProducts = function()
 {
     if(sp.isset('refine_search'))
     {
+        $("#current-search").show();
+        $("#current-search").html("Search: <i>"+sp.get("refine_search")+"</i>")
         var search = sp.get("refine_search");
     }
     else
     {
+        $("#current-search").hide();
         var search = '';
     }
     

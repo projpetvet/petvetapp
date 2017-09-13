@@ -258,3 +258,20 @@
 {
     padding-left: 0;
 }
+
+.call-closer
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+}
+
+.call-closer span
+{
+    padding: 10px 15px 10px;
+    display: block;
+    font-family: sans-serif;
+    text-transform: lowercase;
+    font-weight: bold;
+}

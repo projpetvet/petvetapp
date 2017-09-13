@@ -235,6 +235,8 @@
     </ons-template>
     <ons-template id="shopping.html">
         <ons-page id="shopping-page" class="main-page">
+            <p align="center" id="current-search">
+            </p>
             <div class="product-views">
             </div>
             <ons-fab class="open-refine-search" position="bottom right">
@@ -318,8 +320,13 @@
     </ons-dialog>
     <ons-dialog id="refine-search">
         <div style="text-align: center; padding: 10px;">
+            <p class="call-closer">
+                <span onclick="$('#refine-search').hide()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+            </p>
             <p align="center">
-                <ons-input id="search_product" modifier="underbar" placeholder="Search" float></ons-input>
+                <ons-input id="search_product" style="margin-top: 25px;" modifier="underbar" placeholder="Search" float></ons-input>
             </p>
             <p id="product-category-holder" align="center">
             </p>
