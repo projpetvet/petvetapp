@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <!--<script src="components/loader.js"></script>-->
+  <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
   <script src="js/jquery-1.12.3.min.js"></script>
   <script src="js/MVCParser.js"></script>
@@ -148,6 +148,12 @@
             RenderSpecie();
         }
     });
+    
+    function backDevice()
+    {
+        alert("Stop");
+        return false;
+    }
   </script>
 </head>
 <body>
@@ -156,7 +162,7 @@
     </div>
     
     <ons-navigator title="Navigator" id="myNavigator">
-        <ons-page>
+        <ons-page on-device-backbutton="backDevice()">
           <ons-toolbar>
             <div class="center" id="toolbar-title"></div>
             <div class='right'>
