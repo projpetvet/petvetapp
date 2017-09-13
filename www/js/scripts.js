@@ -97,6 +97,8 @@ document.addEventListener('init', function(event) {
         var specie = $("#pet_specie").val();
         var breed = $("#pet_breed").val();
         var gender = $("#pet_gender").val();
+        var color = $("#pet_color").val();
+        var birthday = $("#pet_birthday").val();
         if(name.trim() == '')
         {
             ons.notification.alert("Please fill-out pet name.");
@@ -113,6 +115,14 @@ document.addEventListener('init', function(event) {
         {
             ons.notification.alert("Please fill-out gender.");
         }
+        else if(color.trim() == '')
+        {
+            ons.notification.alert("Please fill-out color.");
+        }
+        else if(birthday.trim() == '')
+        {
+            ons.notification.alert("Please fill-out birthday.");
+        }
         else
         {
             var data = {
@@ -120,6 +130,8 @@ document.addEventListener('init', function(event) {
                 specie : specie,
                 breed : breed,
                 gender : gender,
+                color : color,
+                birthday : birthday,
                 customer : sp.get('user_id')
             };
             
