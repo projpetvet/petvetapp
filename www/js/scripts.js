@@ -466,7 +466,7 @@ var LoadProducts = function()
                 console.log(data);
                 sp.set("products_loaded","true");
                 PRODUCT_LIST = data.list;
-                $("#shopping-page .page__content").html("");
+                $("#shopping-page .page__content .product-views").html("");
                 $.each(data.list,function(key,value){
                     value.key = key;
                     if(value.image == '')
@@ -480,7 +480,7 @@ var LoadProducts = function()
                     
                     var productView = mvc.LoadView('Products/ProductItem',value);
                     //console.log(productView);
-                    $("#shopping-page .page__content").append(productView);
+                    $("#shopping-page .page__content .product-views").append(productView);
                 });
             }
             else
@@ -841,14 +841,18 @@ var RenderSetAppointmentPage = function()
             if(data.success)
             {
                 //doctor
-                sp.set("doctor_list",JSON.stringify(data.doctor_list));
-                var doctorListView = '';
-                $.each(data.doctor_list,function(key,value){
-                    value['key'] = key;
-                    doctorListView += mvc.LoadView('Appointment/DoctorList',value);
-                });
-                var doctorIndexView = mvc.LoadView('Appointment/DoctorIndex',{list:doctorListView});
-                $("#request-schedule-page #doctor-selection").html(doctorIndexView);
+                if($("#doctor-selection").html().trim() == '')
+                {
+                    sp.set("doctor_list",JSON.stringify(data.doctor_list));
+                    var doctorListView = '';
+                    $.each(data.doctor_list,function(key,value){
+                        value['key'] = key;
+                        doctorListView += mvc.LoadView('Appointment/DoctorList',value);
+                    });
+                    var doctorIndexView = mvc.LoadView('Appointment/DoctorIndex',{list:doctorListView});
+                    $("#request-schedule-page #doctor-selection").html(doctorIndexView);
+                }
+                
                 //pets
                 var petListView = '';
                 $.each(data.pet_list,function(key,value){

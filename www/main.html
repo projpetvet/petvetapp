@@ -228,8 +228,13 @@
       </ons-page>
     </ons-template>
     <ons-template id="shopping.html">
-          <ons-page id="shopping-page" class="main-page">
-          </ons-page>
+        <ons-page id="shopping-page" class="main-page">
+            <div class="product-views">
+            </div>
+            <ons-fab class="add-appointment" position="bottom right">
+                <ons-icon icon="fa-filter"></ons-icon>
+            </ons-fab>
+        </ons-page>
     </ons-template>
     <ons-template id="productdetail">
         <ons-page id="product-detail-page">
@@ -356,9 +361,9 @@
                 </p>
                 <p id="app-time-holder" align="center">
                 </p>
-                <p id="doctor-selection" align="center">
-                </p>
                 <p id="pet-selection" align="center">
+                </p>
+                <p id="doctor-selection" align="center">
                 </p>
                 <p align="center">
                     <textarea id="app_note" placeholder="Note"></textarea>
