@@ -1347,7 +1347,7 @@ var RenderAppointmentHistoryByPet = function(id){
                     ListView = '<i style="padding-left:20px;">No appointment history...</i>';
                 }
                 
-                var IndexView = mvc.LoadView('Appointment/AppIndex',{list:ListView});
+                var IndexView = mvc.LoadView('Appointment/AppPetIndex',{list:ListView});
                 $("#pet-appointment-history").html(IndexView);
             }
             else

@@ -115,6 +115,8 @@
 {
     font-weight: 700;
     display: block;
+    margin: 5px 0;
+    color: #0c827f;
 }
 
 .product-details .product-image
