@@ -149,11 +149,6 @@
         }
     });
     
-    function backDevice()
-    {
-        alert("Stop");
-        return false;
-    }
   </script>
 </head>
 <body>
@@ -162,7 +157,7 @@
     </div>
     
     <ons-navigator title="Navigator" id="myNavigator">
-        <ons-page on-device-backbutton="backDevice()">
+        <ons-page>
           <ons-toolbar>
             <div class="center" id="toolbar-title"></div>
             <div class='right'>

@@ -457,7 +457,8 @@ var Signin = function(username,password)
                 if((data.info.enabled == 1) && (data.info.is_verified == 1))
                 {
                     sp.set('user_id',data.id);
-                    window.location.href = "main.html";
+                    sp.set('handler','index');
+                    window.location.href = "handler.html";
                 }
                 else if(data.info.is_verified == 0)
                 {
@@ -482,7 +483,8 @@ var Signin = function(username,password)
                                         if(data.success)
                                         {
                                             sp.set('user_id',data.id);
-                                            window.location.href = "main.html";
+                                            sp.set('handler','index');
+                                            window.location.href = "handler.html";
                                         }
                                         dismissLoader();
                                     },
@@ -540,7 +542,8 @@ var SignInWebUser = function(web_code)
             if(data.success)
             {
                 sp.set('user_id',data.id);
-                window.location.href = "main.html";
+                sp.set('handler','index');
+                window.location.href = "handler.html";
             }
             else
             {
