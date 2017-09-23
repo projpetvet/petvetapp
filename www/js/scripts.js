@@ -1627,3 +1627,52 @@ var RenderProductCategories = function(id)
         }
     });
 };
+
+var RenderDoctorInfo = function(elem)
+{
+   var id = $(elem).val();
+   var data = JSON.parse(sp.get("doctor_list"));
+   var info = data[id];
+   if(info.image == '')
+   {
+      info.image = 'img/logo.png'; 
+   }
+   else
+   {
+       info.image = config.doctorUrl+info.image;
+   }
+   console.log(info);
+   info.schedule = '';
+   
+   if(info.mon == 1)
+   {
+        info.schedule += 'mon ';
+   }
+   if(info.tue == 1)
+   {
+        info.schedule += 'tue ';
+   }
+   if(info.wed == 1)
+   {
+        info.schedule += 'wed ';
+   }
+   if(info.thur == 1)
+   {
+        info.schedule += 'thur ';
+   }
+   if(info.fri == 1)
+   {
+        info.schedule += 'fri ';
+   }
+   if(info.sat == 1)
+   {
+        info.schedule += 'sat ';
+   }
+   if(info.sun == 1)
+   {
+        info.schedule += 'sun ';
+   }
+   
+   var IndexView = mvc.LoadView('Appointment/DoctorInfo',info);
+   $("#doctor-details").html(IndexView);
+};
