@@ -1017,6 +1017,7 @@ var RenderSetAppointmentPage = function()
         success : function(data){
             if(data.success)
             {
+                $("#app_date").val(data.current_date);
                 //doctor
                 if($("#doctor-selection").html().trim() == '')
                 {
